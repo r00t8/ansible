@@ -3,9 +3,8 @@
   remote_user: shk
   become: yes
   become_method: sudo
-  vars:
-    http_port: 80
-    https_port: 433
+  vars_files:
+    - ../vars/apache_install_vars.yml
   tasks:
   - name: Install httpd on CentOS7 node
     yum:
@@ -21,7 +20,7 @@
       - ansible_os_family == "RedHat"
   - name: write the apache config file
     template:
-      src: /home/shk/files/httpd.j2
+      src: ../files/httpd.j2
       dest: /etc/httpd/conf/httpd.conf
     notify:
     - restart apache
@@ -41,7 +40,7 @@
       - ansible_os_family == "Debian"
   - name: write the apache2 config file
     template:
-      src: /home/shk/files/apache2_ports.j2
+      src: ../files/apache2_ports.j2
       dest: /etc/apache2/ports.conf
     notify:
     - restart apache2
