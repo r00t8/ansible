@@ -1,0 +1,19 @@
+---
+- hosts: all
+  remote_user: shk
+  become: yes
+  become_method: sudo
+
+  tasks:
+  - name: UnInstall httpd on CentOS7 node
+    yum:
+      name: httpd
+      state: absent
+    when:
+      - ansible_os_family == "RedHat"
+  - name: UnInstall httpd on Debian node
+    apt:
+      name: apache2
+      state: absent
+    when:
+      - ansible_os_family == "Debian"
